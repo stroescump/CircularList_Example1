@@ -50,40 +50,33 @@ void afisareColet(Colet c) {
 Nod* extragereSiStergereNodDinLista(Nod*& capLista, int idNod) {
 	Nod* nodExtras = (Nod*)malloc(sizeof(Nod));
 	Nod* copieCap = capLista;
-	while (capLista->next != copieCap) {
-		if (capLista->info.id != idNod) capLista = capLista->next;
-		else {
-			nodExtras->next = nodExtras;
-			nodExtras->info = initColet(capLista->info.id, capLista->info.expeditor, capLista->info.destinatar, capLista->info.greutate);
-			free(capLista->info.destinatar);
-			free(capLista->info.expeditor);
-			Nod* temp = capLista;
-			capLista = capLista->next;
-			free(temp);
-			return nodExtras;
-		}
-	}
-	if (capLista->info.id != idNod) {
+
+	while (capLista->next != copieCap && capLista->next->info.id != idNod) {
 		capLista = capLista->next;
 	}
-	if (capLista->info.id == idNod) {
+
+	if (capLista->next->info.id == idNod) {
 		nodExtras->next = nodExtras;
-		nodExtras->info = initColet(capLista->info.id, capLista->info.expeditor, capLista->info.destinatar, capLista->info.greutate);
-		free(capLista->info.destinatar);
-		free(capLista->info.expeditor);
-		Nod* temp = capLista;
-		capLista = capLista->next;
+		nodExtras->info = initColet(capLista->next->info.id, capLista->next->info.expeditor, capLista->next->info.destinatar, capLista->next->info.greutate);
+		free(capLista->next->info.destinatar);
+		free(capLista->next->info.expeditor);
+		Nod* temp = capLista->next;
+		if (capLista->next == copieCap) {
+			capLista->next = copieCap->next;
+			capLista = copieCap->next;
+		}
+		else {
+			capLista->next = capLista->next->next;
+		}
+
 		free(temp);
 		return nodExtras;
-	}
-	else {
-		throw "Nod inexistent!";
 	}
 }
 
 void afisareListaCirculara(Nod* capLista) {
 	Nod* copieCap = capLista;
-	while (capLista->next != copieCap && capLista != NULL) {
+	while (capLista->next != copieCap) {
 		afisareColet(capLista->info);
 		capLista = capLista->next;
 	}
@@ -99,5 +92,6 @@ void main() {
 	inserareNodInListaCirculara(capListaCirculara, initColet(5, "Alt colet 5", "Stroescu Marius", 22.2));
 	//afisareListaCirculara(capListaCirculara);
 	Nod* nodExtras = extragereSiStergereNodDinLista(capListaCirculara, 5);
-	afisareListaCirculara(nodExtras);
+	afisareListaCirculara(capListaCirculara);
+	//afisareListaCirculara(nodExtras);
 }
