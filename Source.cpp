@@ -67,6 +67,7 @@ Nod* extragereSiStergereNodDinLista(Nod*& capLista, int idNod) {
 		}
 		else {
 			capLista->next = capLista->next->next;
+			capLista = copieCap;
 		}
 
 		free(temp);
@@ -91,7 +92,7 @@ void main() {
 	inserareNodInListaCirculara(capListaCirculara, initColet(4, "Alt colet 4", "Stroescu Marius", 541.0));
 	inserareNodInListaCirculara(capListaCirculara, initColet(5, "Alt colet 5", "Stroescu Marius", 22.2));
 	//afisareListaCirculara(capListaCirculara);
-	Nod* nodExtras = extragereSiStergereNodDinLista(capListaCirculara, 5);
+	Nod* nodExtras = extragereSiStergereNodDinLista(capListaCirculara, 3);
 	afisareListaCirculara(capListaCirculara);
 	//afisareListaCirculara(nodExtras);
 }
